@@ -1,25 +1,28 @@
-name: Deploy DocHub by GitHub Pages
+# Simple workflow for deploying static content to GitHub Pages
+name: Deploy static DocHub to GitHub Pages
+
 on:
+  # Runs on pushes targeting the default branch
   push:
-    branches: [gerzhan]
-  # pull:
-  #   branches: [gerzhan]
+    branches: ["master", "gerzhan"]
+
   # Allows you to run this workflow manually from the Actions tab
   workflow_dispatch:
-    # tags:
-    #     description: 'Test tag'
-    #     required: false
-    #     type: boolean
 
 # Sets permissions of the GITHUB_TOKEN to allow deployment to GitHub Pages
 permissions:
   contents: read
-  pages: write      # to deploy to Pages
-  id-token: write   # to verify the deployment originates from an appropriate source
-
+  pages: write
+  id-token: write
 
 env:
   VUE_APP_DOCHUB_HTML_BASE: /gerzhan/DocHub
+
+# Allow only one concurrent deployment, skipping runs queued between the run in-progress and latest queued.
+# However, do NOT cancel in-progress runs as we want to allow these production deployments to complete.
+concurrency:
+  group: "pages"
+  cancel-in-progress: false
 
 jobs:
   build:
@@ -32,25 +35,24 @@ jobs:
           node-version: '20.x'
       - run: npm install
       - run: npm run build
-      - name: Make Artifact
-        uses: actions/upload-pages-artifact@v3
-        with:
-          path: ${{ github.workspace }}/dist
+  # Single deploy job since we're just deploying
   deploy:
-    runs-on: ubuntu-latest
-    # Add a dependency to the build job
-    needs: build
-    # Grant GITHUB_TOKEN the permissions required to make a Pages deployment
-    permissions:
-      pages: write      # to deploy to Pages
-      id-token: write   # to verify the deployment originates from an appropriate source
-    # Deploy to the github-pages environment
     environment:
       name: github-pages
       url: ${{ steps.deployment.outputs.page_url }}
-    # Specify runner + deployment step
-    # runs-on: ubuntu-latest
+    runs-on: ubuntu-latest
+    # Add a dependency to the build job
+    needs: build
     steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+      - name: Setup Pages
+        uses: actions/configure-pages@v5
+      - name: Upload artifact
+        uses: actions/upload-pages-artifact@v3
+        with:
+          # Upload entire repository
+          path: './dist'
       - name: Deploy to GitHub Pages
         id: deployment
-        uses: actions/deploy-pages@v4 # or specific "vX.X.X" version tag for this action
+        uses: actions/deploy-pages@v4
