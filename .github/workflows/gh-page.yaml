@@ -37,6 +37,7 @@ jobs:
         with:
           path: ${{ github.workspace }}/dist
   deploy:
+    runs-on: ubuntu-latest
     # Add a dependency to the build job
     needs: build
     # Grant GITHUB_TOKEN the permissions required to make a Pages deployment
