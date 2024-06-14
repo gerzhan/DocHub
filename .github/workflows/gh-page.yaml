@@ -2,8 +2,8 @@ name: Deploy DocHub by GitHub Pages
 on:
   push:
     branches: [gerzhan]
-  pull:
-    branches: [gerzhan]
+  # pull:
+  #   branches: [gerzhan]
   # Allows you to run this workflow manually from the Actions tab
   workflow_dispatch:
     # tags:
