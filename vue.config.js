@@ -71,6 +71,10 @@ if (process.env.VUE_APP_DOCHUB_MODE === 'plugin') {
 
 // Дефолтная конфигурация dev-сервера
 let config = {
+  // @see https://cli.vuejs.org/config/#baseurl
+  publicPath: process.env.NODE_ENV === 'production'
+    ? process.env.VUE_APP_DOCHUB_HTML_BASE ?? '/'
+    : '/',
 	runtimeCompiler: true,
 	devServer: {
 		headers: {
