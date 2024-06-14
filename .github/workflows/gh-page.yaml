@@ -21,7 +21,7 @@ permissions:
 env:
   VUE_APP_DOCHUB_HTML_BASE: /gerzhan/DocHub
 
-joibs:
+jobs:
   build:
     runs-on: ubuntu-latest
     steps:
