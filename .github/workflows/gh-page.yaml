@@ -34,8 +34,8 @@ joibs:
       - run: npm run build
       - name: Make Artifact
         uses: actions/upload-pages-artifact@v3
-          with:
-            path: ${{ github.workspace }}/dist
+        with:
+          path: ${{ github.workspace }}/dist
   deploy:
     # Add a dependency to the build job
     needs: build
